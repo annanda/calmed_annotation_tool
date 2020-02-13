@@ -1,0 +1,1 @@
+# Annotation Tool software for the project Personal-independent Emotion Detection Model for Children with High-Functioning ASD
