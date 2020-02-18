@@ -1,18 +1,49 @@
 from flask import Flask, render_template, request, json
+from models import db, EmotionIndicesAnnotation
 
 app = Flask(__name__, template_folder="./templates", static_folder='static')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///video_annotation.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 
 
 @app.route('/', methods=['GET'])
 def index_page():
     info = {}
     # return render_template('index.html', **info)
-    return "Hello World"
+    # test_db()
+    return "Hello World!"
+
+
+def test_db():
+    video_file_name = 'my_test.avi'
+    emotion_zone = 'blue'
+    time_seconds = 110
+    # send a dictionary to DB
+    behaviours = {
+        'jump': 0,
+        'laugh': 1,
+        'head_movement': 1,
+        'other': 'I see he is agitated'
+    }
+    save_in_db(video_file_name, emotion_zone, time_seconds, behaviours)
+
+
+def save_in_db(video_file_name, emotion_zone, time_seconds, behaviours):
+    db_new_entry = EmotionIndicesAnnotation(video_file_name=video_file_name, emotion_zone=emotion_zone,
+                                            time_of_video_seconds=time_seconds, behaviour_markes=behaviours)
+    db.session.add(db_new_entry)
+    db.session.commit()
+    # to query the last entry on DB
+    # last_execution = db.session.query(EmotionIndicesAnnotation).order_by(EmotionIndicesAnnotation.id.desc()).first()
+    # print(last_execution)
+    # print(last_execution.behaviour_markes)
+    # print(type(last_execution.behaviour_markes))
 
 
 if __name__ == '__main__':
     # TODO comment the lines below
-    # app.app_context().push()
-    # db.drop_all()
-    # db.create_all()
+    app.app_context().push()
+    db.drop_all()
+    db.create_all()
     app.run(debug=True, host='0.0.0.0', port=90)
