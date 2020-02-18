@@ -7,12 +7,17 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
-@app.route('/', methods=['GET'])
+# @app.route('/', methods=['GET'])
 def index_page():
     info = {}
     # return render_template('index.html', **info)
     # test_db()
     return "Hello World!"
+
+
+@app.route('/', methods=['GET'])
+def video_main():
+    return render_template('video_annotation_main.html')
 
 
 def test_db():
