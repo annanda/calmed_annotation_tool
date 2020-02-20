@@ -12,6 +12,6 @@ data = {'video_file_name': 'video1.mpeg',
         }
         }
 data_json = json.dumps(data)
-
+# data = "hello"
 r = requests.post('http://0.0.0.0:90/store_annotation', json=data)
 print(r.content)

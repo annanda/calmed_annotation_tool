@@ -24,21 +24,10 @@ def video_main():
 def store_annotation():
     # print(request.is_json)
     req_data = request.get_json()
-    # print(req_data)
     video_file_name = req_data['video_file_name']
     emotion_zone = req_data['emotional_zone']
     time = req_data['time_seconds']
     behaviours = req_data['behaviours']
-
-    # video_file_name = 'my_test.avi'
-    # time = 110
-    # behaviours = {
-    #     'jump': 0,
-    #     'laugh': 1,
-    #     'head_movement': 1,
-    #     'other': 'I see he is agitated'
-    # }
-
     save_in_db(video_file_name=video_file_name, emotion_zone=emotion_zone, time_seconds=time, behaviours=behaviours)
     return 'annotation saved on DB'
 
@@ -62,11 +51,11 @@ def save_in_db(video_file_name, emotion_zone, time_seconds, behaviours):
                                             time_of_video_seconds=time_seconds, behaviour_markes=behaviours)
     db.session.add(db_new_entry)
     db.session.commit()
-    # to query the last entry on DB
-    # last_execution = db.session.query(EmotionIndicesAnnotation).order_by(EmotionIndicesAnnotation.id.desc()).first()
-    # print(last_execution)
-    # print(last_execution.behaviour_markes)
-    # print(type(last_execution.behaviour_markes))
+# to query the last entry on DB
+# last_execution = db.session.query(EmotionIndicesAnnotation).order_by(EmotionIndicesAnnotation.id.desc()).first()
+# print(last_execution)
+# print(last_execution.behaviour_markes)
+# print(type(last_execution.behaviour_markes))
 
 
 if __name__ == '__main__':
