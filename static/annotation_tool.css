@@ -1,10 +1,10 @@
 
 #wrapper {
-    width: 1000px;
-    height: 600px;
+    width: 1300px;
+    height: 630px;
     border: 1px solid lightgray;
     border-radius: 5px;
-    background-color: yellow;
+    /*background-color: yellow;*/
     position: absolute;
     top: 0;
     bottom: 0;
@@ -16,7 +16,7 @@
 }
 
 #video {
-    width: 630px;
+    width: 660px;
     height: 500px;
     border: 1px solid lightgray;
     margin-left: 20px;
@@ -26,7 +26,7 @@
 }
 
 #emotions {
-    width: 300px;
+    width: 550px;
     height: 500px;
     float: left;
     margin-left: 20px;
@@ -48,6 +48,76 @@
     text-align: center;
     font-weight: bold;
 }
-button{
+
+button {
     display: block;
+    width: 210px;
+    height: 225px;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+    border: none;
+}
+
+#emotion_blue {
+    background-image: url("images/blue.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+
+}
+#emotion_blue:hover {
+    background-image: url("images/blue_hover.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+
+}
+
+#emotion_green {
+    background-image: url("images/green.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+
+}
+#emotion_green:hover {
+    background-image: url("images/green_hover.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+
+}
+
+#emotion_red {
+    background-image: url("images/red.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+}
+#emotion_red:hover {
+    background-image: url("images/red_hover.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+}
+
+#emotion_yellow {
+    background-image: url("images/yellow.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+
+}
+
+#emotion_yellow:hover {
+    background-image: url("images/yellow_hover.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+
+}
+
+video{
+    margin-top: 20px;
 }

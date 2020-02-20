@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <title>Annotation Tool</title>
     <link rel="stylesheet" type="text/css" href="../static/annotation_tool.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/emotions.js"></script>
+
 </head>
 <body>
 <div id="wrapper">
     <p id="instruction">Click on the Emotional Zone button as soon as you identify it</p>
     <div id="video">
-        video
+        <video id='video_task_1' width="640" controls muted>
+            <source src="static/video_test_task_1.mp4" type="video/mp4">
+        </video>
     </div>
 
     <div id="emotions">
-        <button id="emotion_blue">Blue</button>
-        <button id="emotion_green">Green</button>
-        <button id="emotion_yellow">Yellow</button>
-        <button id="emotion_red">Red</button>
+        <button id="emotion_blue"></button>
+        <button id="emotion_green"></button>
+        <button id="emotion_yellow"></button>
+        <button id="emotion_red"></button>
     </div>
 </div>
 </body>

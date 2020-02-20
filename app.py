@@ -20,6 +20,29 @@ def video_main():
     return render_template('video_annotation_main.html')
 
 
+@app.route('/store_annotation', methods=['POST'])
+def store_annotation():
+    # print(request.is_json)
+    req_data = request.get_json()
+    # print(req_data)
+    video_file_name = req_data['video_file_name']
+    emotion_zone = req_data['emotional_zone']
+    time = req_data['time_seconds']
+    behaviours = req_data['behaviours']
+
+    # video_file_name = 'my_test.avi'
+    # time = 110
+    # behaviours = {
+    #     'jump': 0,
+    #     'laugh': 1,
+    #     'head_movement': 1,
+    #     'other': 'I see he is agitated'
+    # }
+
+    save_in_db(video_file_name=video_file_name, emotion_zone=emotion_zone, time_seconds=time, behaviours=behaviours)
+    return 'annotation saved on DB'
+
+
 def test_db():
     video_file_name = 'my_test.avi'
     emotion_zone = 'blue'
@@ -49,6 +72,6 @@ def save_in_db(video_file_name, emotion_zone, time_seconds, behaviours):
 if __name__ == '__main__':
     # TODO comment the lines below
     app.app_context().push()
-    db.drop_all()
-    db.create_all()
+    # db.drop_all()
+    # db.create_all()
     app.run(debug=True, host='0.0.0.0', port=90)
