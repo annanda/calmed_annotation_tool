@@ -28,6 +28,7 @@ function collect_behaviours(video_file, emotion, time_seconds) {
     var behaviour = document.getElementById("behaviours_checkbox")
     var txt = "";
     var i;
+    var checked = ""
     for (i = 0; i < behaviour.length - 1; i++) {
         if (behaviour[i].checked) {
             behaviours[behaviour[i].value] = 1
@@ -47,17 +48,17 @@ window.onload = function () {
     let video = document.getElementById('video_annotation');
     let emotion = '';
     let time_seconds = '';
-    let video_name = ''
+    let video_name_full = document.getElementById("source_video").getAttribute('src');
+    let video_name = video_name_full.substring(video_name_full.lastIndexOf('/') + 1);
+
+
     let behaviours = {}
-
-
     document.getElementById("emotion_blue").onclick = function () {
         emotion = 'blue';
         time_seconds = video.currentTime;
         video.pause();
         document.getElementById("behaviours").style.display = 'block';
         document.getElementById("wrapper").style.display = 'none';
-        video_name = document.getElementById("source_video").getAttribute('src');
     }
 
     document.getElementById("emotion_green").onclick = function () {
@@ -66,7 +67,6 @@ window.onload = function () {
         video.pause();
         document.getElementById("behaviours").style.display = 'block';
         document.getElementById("wrapper").style.display = 'none';
-        video_name = document.getElementById("source_video").getAttribute('src');
     }
 
     document.getElementById("emotion_red").onclick = function () {
@@ -75,7 +75,6 @@ window.onload = function () {
         video.pause();
         document.getElementById("behaviours").style.display = 'block';
         document.getElementById("wrapper").style.display = 'none';
-        video_name = document.getElementById("source_video").getAttribute('src');
     }
 
     document.getElementById("emotion_yellow").onclick = function () {
@@ -84,11 +83,28 @@ window.onload = function () {
         video.pause();
         document.getElementById("behaviours").style.display = 'block';
         document.getElementById("wrapper").style.display = 'none';
-        video_name = document.getElementById("source_video").getAttribute('src');
     }
 
     document.getElementById("send_behaviours").onclick = function () {
-        behaviours = collect_behaviours();
-        make_request(video_name, emotion, time_seconds, behaviours);
+        var behaviour = document.getElementById("behaviours_checkbox")
+        var i;
+        var checked = "";
+        var typed_behaviour = document.getElementById('typed_text').value
+        for (i = 0; i < behaviour.length - 1; i++) {
+            if (behaviour[i].checked) {
+                checked = true;
+            }
+        }
+
+        if (checked == "" && typed_behaviour == "") {
+            document.getElementById("info").innerHTML = "Please, select at least one option.";
+            document.getElementById("info").style.color = "red"
+        }
+        else {
+            document.getElementById("info").innerHTML = "When you click the \"Submit\" button, you will return to the video.";
+            document.getElementById("info").style.color = 'black';
+            behaviours = collect_behaviours();
+            make_request(video_name, emotion, time_seconds, behaviours);
+        }
     }
 }
