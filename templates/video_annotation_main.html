@@ -13,7 +13,7 @@
     <p id="instruction">Click on the Emotional Zone button as soon as you identify it</p>
     <div id="video">
         <video id='video_annotation' width="640" controls autoplay muted>
-            <source src="static/video_example.mp4" type="video/mp4">
+            <source id="source_video" src="static/video_example.mp4" type="video/mp4">
         </video>
     </div>
 
@@ -22,6 +22,17 @@
         <button id="emotion_green"></button>
         <button id="emotion_yellow"></button>
         <button id="emotion_red"></button>
+    </div>
+    <div id="behaviours">
+        <form>
+            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+            <label for="vehicle1"> I have a bike</label><br>
+            <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+            <label for="vehicle2"> I have a car</label><br>
+            <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+            <label for="vehicle3"> I have a boat</label><br><br>
+            <button id="send_behaviours">Submit</button>
+        </form>
     </div>
 </div>
 </body>

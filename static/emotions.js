@@ -14,27 +14,56 @@ function make_request(video_name, emotion, time_seconds, behaviors, method = "po
             // document.getElementById("answer_mood").style.display = 'block';
             // let text =  'Thank you! <br>';
             // document.getElementById("answer_mood").innerHTML= text + '<a id="continue_mood_link" href="/'+ next_page + '" > Let\'s CONTINUE!';
-            // document.getElementById("mood_buttons").style.display = 'None'
-            alert("Thank you!");
+            document.getElementById("behaviours").style.display = 'block';
+            document.getElementById('video_annotation').play()
+            // alert("Thank you!");
+            // setTimeout(function () {
+            //     document.getElementById('video_annotation').play()
+            // }, 2000);
         }
         // async: false
     });
 
 }
 
+function collect_behaviours(video_file, emotion, time_seconds) {
+    behaviours = {
+        'jump': 1,
+        'laugh': 0,
+        'head_movement': 0,
+        'other': 'Sending data by JS'
+    }
+
+    // document.getElementById("emotion_blue").onclick =
+    return behaviours
+}
+
 window.onload = function () {
 
-    let video = document.getElementById('video_annotation')
+    let video = document.getElementById('video_annotation');
+    let emotion = '';
+    let time_seconds = '';
+    let video_name = ''
+    let behaviours = {}
+
 
     document.getElementById("emotion_blue").onclick = function () {
         emotion = 'blue';
-        time_seconds = video.currentTime
-        behaviours = {
-            'jump': 1,
-            'laugh': 0,
-            'head_movement': 0,
-            'other': 'Sending data by JS'
-        }
-        make_request('video_test_again.avi', emotion, time_seconds, behaviours);
+        time_seconds = video.currentTime;
+        video.pause();
+        document.getElementById("behaviours").style.display = 'block';
+        video_name = document.getElementById("source_video").getAttribute('src');
+        // behaviours = {
+        //     'jump': 1,
+        //     'laugh': 0,
+        //     'head_movement': 0,
+        //     'other': 'Sending data by JS'
+        // }
+    }
+
+    document.getElementById("send_behaviours").onclick = function () {
+        behaviours = collect_behaviours();
+        make_request(video_name, emotion, time_seconds, behaviours);
+
     }
 }

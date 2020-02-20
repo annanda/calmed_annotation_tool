@@ -17,7 +17,7 @@
 
 #video {
     width: 660px;
-    height: 500px;
+    height: 520px;
     border: 1px solid lightgray;
     margin-left: 20px;
     margin-top: 20px;
@@ -27,7 +27,7 @@
 
 #emotions {
     width: 550px;
-    height: 500px;
+    height: 520px;
     float: left;
     margin-left: 20px;
     border: 1px solid lightgray;
@@ -66,6 +66,7 @@ button {
     background-size: cover;
 
 }
+
 #emotion_blue:hover {
     background-image: url("images/blue_hover.png");
     background-position: center; /* Center the image */
@@ -81,6 +82,7 @@ button {
     background-size: cover;
 
 }
+
 #emotion_green:hover {
     background-image: url("images/green_hover.png");
     background-position: center; /* Center the image */
@@ -95,6 +97,7 @@ button {
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover;
 }
+
 #emotion_red:hover {
     background-image: url("images/red_hover.png");
     background-position: center; /* Center the image */
@@ -118,6 +121,21 @@ button {
 
 }
 
-video{
+video {
     margin-top: 20px;
+}
+
+#behaviours {
+    width: 1100px;
+    height: 600px;
+    border: 1px solid lightcyan;
+    border-radius: 5px;
+    background-color: lightgray;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: none;
 }
