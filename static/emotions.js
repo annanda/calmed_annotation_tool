@@ -22,12 +22,13 @@ function make_request(video_name, emotion, time_seconds, behaviors, method = "po
 
 }
 
-
 window.onload = function () {
+
+    let video = document.getElementById('video_annotation')
 
     document.getElementById("emotion_blue").onclick = function () {
         emotion = 'blue';
-        time_seconds = 24;
+        time_seconds = video.currentTime
         behaviours = {
             'jump': 1,
             'laugh': 0,

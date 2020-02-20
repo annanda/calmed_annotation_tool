@@ -8,7 +8,7 @@ class EmotionIndicesAnnotation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     video_file_name = db.Column(db.String(150), unique=False, nullable=False)
     emotion_zone = db.Column(db.String(80), unique=False, nullable=False)
-    time_of_video_seconds = db.Column(db.Integer, unique=False, nullable=False)
+    time_of_video_seconds = db.Column(db.Float, unique=False, nullable=False)
     behaviour_markes = db.Column(db.JSON)
 
     behaviour_markes = db.Column(
