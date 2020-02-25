@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, json
 from models import db, EmotionIndicesAnnotation
+from conf import VIDEO_FILE
 
 app = Flask(__name__, template_folder="./templates", static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///video_annotation.db'
@@ -17,7 +18,7 @@ def index_page():
 
 @app.route('/', methods=['GET'])
 def video_main():
-    return render_template('video_annotation_main.html')
+    return render_template('video_annotation_main.html', video_name=VIDEO_FILE)
 
 
 @app.route('/store_annotation', methods=['POST'])
