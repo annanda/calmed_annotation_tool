@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, json
 from models import db, EmotionIndicesAnnotation
 from conf import VIDEO_FILE
+from datetime import datetime
 
 app = Flask(__name__, template_folder="./templates", static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///video_annotation.db'
@@ -48,8 +49,9 @@ def test_db():
 
 
 def save_in_db(video_file_name, emotion_zone, time_seconds, behaviours):
+    time = datetime.now()
     db_new_entry = EmotionIndicesAnnotation(video_file_name=video_file_name, emotion_zone=emotion_zone,
-                                            time_of_video_seconds=time_seconds, behaviour_markes=behaviours)
+                                            time_of_video_seconds=time_seconds, behaviour_markes=behaviours, timestamp_annotation=time)
     db.session.add(db_new_entry)
     db.session.commit()
 # to query the last entry on DB

@@ -10,6 +10,7 @@ class EmotionIndicesAnnotation(db.Model):
     emotion_zone = db.Column(db.String(80), unique=False, nullable=False)
     time_of_video_seconds = db.Column(db.Float, unique=False, nullable=False)
     behaviour_markes = db.Column(db.JSON)
+    timestamp_annotation = db.Column(db.DateTime, nullable=False)
 
     behaviour_markes = db.Column(
         sqlalchemy_jsonfield.JSONField(
@@ -27,4 +28,5 @@ class EmotionIndicesAnnotation(db.Model):
 
     def __repr__(self):
         return f"<id: {self.id}, video_file: {self.video_file_name}, emotion_zone: {self.emotion_zone}, " \
-               f"time_seconds: {self.time_of_video_seconds}, behaviour markers: {self.behaviour_markes} >"
+               f"time_seconds: {self.time_of_video_seconds}, behaviour markers: {self.behaviour_markes}," \
+               f"timestamp_annotation: {self.timestamp_annotation} >"

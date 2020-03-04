@@ -5,7 +5,7 @@
     <title>Annotation Tool</title>
     <link rel="stylesheet" type="text/css" href="../static/annotation_tool.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../static/emotions.js"></script>
+    <script type="text/javascript" src="../static/annotation_tool.js"></script>
 
 </head>
 <body>
@@ -13,7 +13,8 @@
     <p class="instruction">Click on the Emotional Zone button as soon as you identify it</p>
     <div id="video">
         <video id='video_annotation' width="640" controls autoplay muted>
-            <source id="source_video" src= {{ 'static/' + video_name }} type="video/mp4">
+            <source id="source_video" src={{
+            'static/' + video_name }} type="video/mp4">
         </video>
         <div id="explanation">
             We ask you to select the emotional zone you believe your child is engaged in at any moment and to indicate
@@ -33,22 +34,36 @@
     <p class="instruction">Select which behaviour you observed to select the emotional zone</p>
     <div id="form_behaviour">
         <form id="behaviours_checkbox">
-            <input type="checkbox" id="facial_expressions" value="facial_expressions">
-            <label for="facial_expressions"> Facial expressions</label><br>
-            <input type="checkbox" id="words" value="words">
-            <label for="words"> Words they said</label><br>
-            <input type="checkbox" id="vocalization" value="vocalization">
-            <label for="vocalization"> Sounds they made</label><br>
-            <input type="checkbox" id="jump" value="Jump">
-            <label for="jump"> Jumping</label><br>
-            <input type="checkbox" id="head_movment" value="head_movement">
-            <label for="head_movment"> Head movement</label><br>
-            <input type="checkbox" id="laugh" value="laugh">
-            <label for="laugh"> Laugh</label><br>
+            <label for="facial_expressions" class="input_container"> Facial expressions
+                <input type="checkbox" id="facial_expressions" value="facial_expressions">
+                <span class="checkmark"></span>
+            </label>
+            <label for="words" class="input_container"> Words they said
+                <input type="checkbox" id="words" value="words">
+                <span class="checkmark"></span>
+            </label>
+            <label for="vocalization" class="input_container"> Sounds they made
+                <input type="checkbox" id="vocalization" value="vocalization">
+                <span class="checkmark"></span>
+            </label>
+            <label for="jump" class="input_container"> Jumping
+                <input type="checkbox" id="jump" value="Jump">
+                <span class="checkmark"></span>
+            </label>
+            <label for="head_movment" class="input_container"> Head movement
+                <input type="checkbox" id="head_movment" value="head_movement">
+                <span class="checkmark"></span>
+            </label>
+            <label for="laugh" class="input_container"> Laugh
+                <input type="checkbox" id="laugh" value="laugh">
+                <span class="checkmark"></span>
+            </label>
+
             <label> Other:</label>
             <input type="text" id="typed_text">
         </form>
         <button id="send_behaviours">Submit</button>
+        <button id="cancel">Cancel</button>
         <p id="info">When you click the "Submit" button, you will return to the video. </p>
     </div>
 </div>

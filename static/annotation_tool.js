@@ -85,6 +85,13 @@ window.onload = function () {
         document.getElementById("wrapper").style.display = 'none';
     }
 
+    document.getElementById("cancel").onclick = function () {
+        document.getElementById("behaviours").style.display = 'none';
+        document.getElementById("wrapper").style.display = 'block';
+        document.getElementById('video_annotation').currentTime = time_seconds;
+        document.getElementById('video_annotation').play()
+    }
+
     document.getElementById("send_behaviours").onclick = function () {
         var behaviour = document.getElementById("behaviours_checkbox")
         var i;
@@ -99,8 +106,7 @@ window.onload = function () {
         if (checked == "" && typed_behaviour == "") {
             document.getElementById("info").innerHTML = "Please, select at least one option.";
             document.getElementById("info").style.color = "red"
-        }
-        else {
+        } else {
             document.getElementById("info").innerHTML = "When you click the \"Submit\" button, you will return to the video.";
             document.getElementById("info").style.color = 'black';
             behaviours = collect_behaviours();
@@ -108,3 +114,6 @@ window.onload = function () {
         }
     }
 }
+$(document).on('keypress', ':input:not(textarea):not([type=submit])', function (e) {
+    if (e.which == 13) e.preventDefault();
+});
