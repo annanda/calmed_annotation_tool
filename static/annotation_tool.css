@@ -1,23 +1,24 @@
 
 #wrapper {
-    width: 1300px;
-    height: 630px;
+    /*width: 1300px;*/
+    /*width: 90%;*/
+    /*height: 50%;*/
     border: 1px solid lightgray;
     border-radius: 5px;
     /*background-color: yellow;*/
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 20px;
+    /*bottom: 0;*/
+    left: 20px;
+    /*right: 0;*/
 
 
-    margin: auto;
+    /*margin: auto;*/
 }
 
 #video {
-    width: 660px;
-    height: 520px;
+    width: 70%;
+    /*height: 520px;*/
     border: 1px solid lightgray;
     margin-left: 20px;
     margin-top: 20px;
@@ -164,7 +165,14 @@ button {
 }
 
 video {
+    display: block;
     margin-top: 20px;
+    margin: auto;
+}
+
+#video_annotation {
+    width: 50%;
+    margin: auto;
 }
 
 #behaviours {

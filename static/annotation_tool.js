@@ -11,8 +11,8 @@ function make_request(video_name, emotion, time_seconds, behaviors, method = "po
         contentType: 'application/json',
         processData: false,
         success: function (msg) {
-            document.getElementById("behaviours").style.display = 'none';
-            document.getElementById("wrapper").style.display = 'block';
+            // document.getElementById("behaviours").style.display = 'none';
+            // document.getElementById("wrapper").style.display = 'block';
 
             document.getElementById('video_annotation').currentTime = time_seconds;
             document.getElementById('video_annotation').play()
@@ -50,39 +50,46 @@ window.onload = function () {
     let time_seconds = '';
     let video_name_full = document.getElementById("source_video").getAttribute('src');
     let video_name = video_name_full.substring(video_name_full.lastIndexOf('/') + 1);
-
-
+    // let behaviours = {"facial_expressions": 0, "words": 0, "vocalization": 0, "Jump": 0, "head_movement": 0, "laugh": 0, "Other": ""}
     let behaviours = {}
+
+
+    // let behaviours = {}
     document.getElementById("emotion_blue").onclick = function () {
         emotion = 'blue';
         time_seconds = video.currentTime;
         video.pause();
-        document.getElementById("behaviours").style.display = 'block';
-        document.getElementById("wrapper").style.display = 'none';
+        make_request(video_name, emotion, time_seconds, behaviours);
+        // document.getElementById("behaviours").style.display = 'block';
+        // document.getElementById("wrapper").style.display = 'none';
     }
 
     document.getElementById("emotion_green").onclick = function () {
         emotion = 'green';
         time_seconds = video.currentTime;
         video.pause();
-        document.getElementById("behaviours").style.display = 'block';
-        document.getElementById("wrapper").style.display = 'none';
+        make_request(video_name, emotion, time_seconds, behaviours);
+
+        // document.getElementById("behaviours").style.display = 'block';
+        // document.getElementById("wrapper").style.display = 'none';
     }
 
     document.getElementById("emotion_red").onclick = function () {
         emotion = 'red';
         time_seconds = video.currentTime;
         video.pause();
-        document.getElementById("behaviours").style.display = 'block';
-        document.getElementById("wrapper").style.display = 'none';
+        make_request(video_name, emotion, time_seconds, behaviours);
+        // document.getElementById("behaviours").style.display = 'block';
+        // document.getElementById("wrapper").style.display = 'none';
     }
 
     document.getElementById("emotion_yellow").onclick = function () {
         emotion = 'yellow';
         time_seconds = video.currentTime;
         video.pause();
-        document.getElementById("behaviours").style.display = 'block';
-        document.getElementById("wrapper").style.display = 'none';
+        make_request(video_name, emotion, time_seconds, behaviours);
+        // document.getElementById("behaviours").style.display = 'block';
+        // document.getElementById("wrapper").style.display = 'none';
     }
 
     document.getElementById("cancel").onclick = function () {
