@@ -14,7 +14,7 @@ function make_request(video_name, emotion, time_seconds, behaviors, method = "po
             // document.getElementById("behaviours").style.display = 'none';
             // document.getElementById("wrapper").style.display = 'block';
 
-            document.getElementById('video_annotation').currentTime = time_seconds;
+            // document.getElementById('video_annotation').currentTime = time_seconds;
             // document.getElementById('video_annotation').play()
         }
         // async: false
