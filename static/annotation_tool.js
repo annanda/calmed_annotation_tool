@@ -15,7 +15,7 @@ function make_request(video_name, emotion, time_seconds, behaviors, method = "po
             // document.getElementById("wrapper").style.display = 'block';
 
             document.getElementById('video_annotation').currentTime = time_seconds;
-            document.getElementById('video_annotation').play()
+            // document.getElementById('video_annotation').play()
         }
         // async: false
     });
@@ -58,7 +58,7 @@ window.onload = function () {
     document.getElementById("emotion_blue").onclick = function () {
         emotion = 'blue';
         time_seconds = video.currentTime;
-        video.pause();
+        // video.pause();
         make_request(video_name, emotion, time_seconds, behaviours);
         // document.getElementById("behaviours").style.display = 'block';
         // document.getElementById("wrapper").style.display = 'none';
@@ -67,7 +67,7 @@ window.onload = function () {
     document.getElementById("emotion_green").onclick = function () {
         emotion = 'green';
         time_seconds = video.currentTime;
-        video.pause();
+        // video.pause();
         make_request(video_name, emotion, time_seconds, behaviours);
 
         // document.getElementById("behaviours").style.display = 'block';
@@ -77,7 +77,7 @@ window.onload = function () {
     document.getElementById("emotion_red").onclick = function () {
         emotion = 'red';
         time_seconds = video.currentTime;
-        video.pause();
+        // video.pause();
         make_request(video_name, emotion, time_seconds, behaviours);
         // document.getElementById("behaviours").style.display = 'block';
         // document.getElementById("wrapper").style.display = 'none';
@@ -86,7 +86,7 @@ window.onload = function () {
     document.getElementById("emotion_yellow").onclick = function () {
         emotion = 'yellow';
         time_seconds = video.currentTime;
-        video.pause();
+        // video.pause();
         make_request(video_name, emotion, time_seconds, behaviours);
         // document.getElementById("behaviours").style.display = 'block';
         // document.getElementById("wrapper").style.display = 'none';

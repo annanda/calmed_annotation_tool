@@ -14,7 +14,6 @@ def get_video_duration(filename):
     frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
     fps = video.get(cv2.CAP_PROP_FPS)
     duration = frame_count / fps
-    # print(duration)
     return duration
 
 
@@ -42,7 +41,6 @@ def fill_emotions_from_time(output_df, annotation_df):
                 index_annotation_df += 1
         emotion = annotation_sorted.iloc[index_annotation_df]['emotion_zone']
         output_df.loc[index, 'emotion_zone'] = emotion
-
     return output_df
 
 
