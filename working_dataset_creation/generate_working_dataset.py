@@ -31,18 +31,10 @@ def generate_dataset_entries(stop, start=0, step=0.2):
     return list_generated
 
 
-# def generate_working_dataset_all_videos(annotation_db):
-#     video_files = annotation_db.video_file_name.unique()
-#     video_duration = {}
-#     for video in video_files:
-#         video_duration[video] = get_video_duration(video)
-#     # TODO finish this here
-
-
-def fill_emotions_from_time(annotation_df, video):
+def fill_emotions_from_time(output_df, annotation_df):
+    annotation_df = pd.read_csv(annotation_df)
     annotation_sorted = annotation_df.sort_values(['video_file_name', 'time_of_video_seconds'])
     index_annotation_df = 0
-    output_df = 'create the output df only here'
     for index, row in output_df.iterrows():
         # TODO include the tine the emotion is manifested before annotation
         if row['time_of_video_seconds'] > annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds']:
@@ -61,18 +53,6 @@ def create_df_from_time_entries(video_duration, list_times):
     return new_df
 
 
-def create_working_datasets(annotation_file):
-    split_annotation_by_video_files(annotation_file)
-    video_duration = {}
-    for video in video_files:
-        video_duration[video] = get_video_duration(video)
-        time_video = get_video_duration(video)
-        list_times = generate_dataset_entries(time_video)
-        output_df = create_df_from_time_entries(time_video, list_times)
-        working_dataset = fill_emotions_from_time(output_df, annotation_df, video)
-        working_dataset.to_csv('testing.csv')
-
-
 def split_annotation_by_video_files(annotation_file):
     annotation_df_from_db = pd.read_csv(annotation_file)
     video_files = annotation_df_from_db.video_file_name.unique()
@@ -85,6 +65,20 @@ def split_annotation_by_video_files(annotation_file):
         new_df.index = new_indexes
         csv_name = f'{output_folder}/{video}.csv'
         new_df.to_csv(csv_name, index=True)
+
+
+def create_working_datasets(annotation_file):
+    split_annotation_by_video_files(annotation_file)
+    annotation_per_video_files = glob.glob(f'{main_folder}/working_dataset_creation/output_from_db/by_video_file/*.csv')
+    for annotation_video_path in annotation_per_video_files:
+        video_name = annotation_video_path.split('/')[-1]
+        video_name = video_name.split('.csv')[0]
+        time_video = get_video_duration(video_name)
+        list_times = generate_dataset_entries(time_video)
+        output_df = create_df_from_time_entries(time_video, list_times)
+        working_dataset = fill_emotions_from_time(output_df, annotation_video_path)
+        output_folder_path = os.path.join(main_folder, 'working_dataset')
+        working_dataset.to_csv(f'{output_folder_path}/{video_name}.csv')
 
 
 if __name__ == '__main__':
