@@ -12,7 +12,7 @@
 <div id="wrapper">
     <p class="instruction">Click on the Emotional Zone button as soon as you identify it</p>
     <div id="video">
-        <video id='video_annotation'  controls>
+        <video id='video_annotation' controls>
             <source id="source_video" src={{
             'static/' + video_name }} type="video/mp4">
         </video>
@@ -23,10 +23,12 @@
     </div>
 
     <div id="emotions">
-        <button id="emotion_blue"></button>
-        <button id="emotion_green"></button>
-        <button id="emotion_yellow"></button>
-        <button id="emotion_red"></button>
+        <div id="emotion_buttons">
+            <button id="emotion_blue"></button>
+            <button id="emotion_green"></button>
+            <button id="emotion_yellow"></button>
+            <button id="emotion_red"></button>
+        </div>
     </div>
 
 </div>
