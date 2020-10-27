@@ -31,11 +31,18 @@ def generate_dataset_entries(stop, start=0, step=0.2):
 
 
 def fill_emotions_from_time(output_df, annotation_df):
+    time_to_skip = 5
+    step_of_time = 0.2
     annotation_df = pd.read_csv(annotation_df)
     annotation_sorted = annotation_df.sort_values(['video_file_name', 'time_of_video_seconds'])
     index_annotation_df = 0
     for index, row in output_df.iterrows():
         # TODO include the tine the emotion is manifested before annotation
+        if index_annotation_df == 0 and row['time_of_video_seconds'] <= (
+                annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds'] - time_to_skip * step_of_time):
+            emotion = 'green'
+            output_df.loc[index, 'emotion_zone'] = emotion
+            continue
         if row['time_of_video_seconds'] > annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds']:
             if index_annotation_df < (len(annotation_sorted) - 1):
                 index_annotation_df += 1
@@ -80,5 +87,6 @@ def create_working_datasets(annotation_file):
 
 
 if __name__ == '__main__':
-    annotation_file = '/Users/user/PycharmProjects/annotation_tool/working_dataset_creation/output_from_db/data_annotation_time_test.csv'
+    # annotation_file = '/Users/user/PycharmProjects/annotation_tool/working_dataset_creation/output_from_db/data_annotation_time_test.csv'
+    annotation_file = '/Users/user/PycharmProjects/annotation_tool/working_dataset_creation/output_from_db/data_annotation_videos_small.csv'
     create_working_datasets(annotation_file)
