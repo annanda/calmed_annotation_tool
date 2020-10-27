@@ -40,7 +40,7 @@ function make_active(emotion) {
     let id_wrapper = "button_wrapper_" + emotion;
     let id_label = "label_button_" + emotion;
 
-    document.getElementById(id_wrapper).style.backgroundColor = '#2196F3';
+    document.getElementById(id_wrapper).style.backgroundColor = '#444';
     document.getElementById(id_label).innerHTML = 'Current Emotion'
 }
 
