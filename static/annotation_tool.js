@@ -22,10 +22,32 @@ function make_request(video_name, emotion, time_seconds, behaviors, method = "po
 
 }
 
+function make_active(emotion) {
+    //clean previous selected
+    //blue
+    document.getElementById("button_wrapper_blue").style.backgroundColor = 'white';
+    document.getElementById("label_button_blue").innerHTML = '';
+    //green
+    document.getElementById("button_wrapper_green").style.backgroundColor = 'white';
+    document.getElementById("label_button_green").innerHTML = '';
+    //red
+    document.getElementById("button_wrapper_red").style.backgroundColor = 'white';
+    document.getElementById("label_button_red").innerHTML = '';
+    //yellow
+    document.getElementById("button_wrapper_yellow").style.backgroundColor = 'white';
+    document.getElementById("label_button_yellow").innerHTML = '';
+
+    let id_wrapper = "button_wrapper_" + emotion;
+    let id_label = "label_button_" + emotion;
+
+    document.getElementById(id_wrapper).style.backgroundColor = '#2196F3';
+    document.getElementById(id_label).innerHTML = 'Current Emotion'
+}
+
 function collect_behaviours(video_file, emotion, time_seconds) {
     behaviours = {}
 
-    var behaviour = document.getElementById("behaviours_checkbox")
+    var behaviour = document.getElementById("behaviours_checkbox");
     var txt = "";
     var i;
     var checked = ""
@@ -59,6 +81,7 @@ window.onload = function () {
         emotion = 'blue';
         time_seconds = video.currentTime;
         // video.pause();
+        make_active(emotion);
         make_request(video_name, emotion, time_seconds, behaviours);
         // document.getElementById("behaviours").style.display = 'block';
         // document.getElementById("wrapper").style.display = 'none';
@@ -68,6 +91,7 @@ window.onload = function () {
         emotion = 'green';
         time_seconds = video.currentTime;
         // video.pause();
+        make_active(emotion);
         make_request(video_name, emotion, time_seconds, behaviours);
 
         // document.getElementById("behaviours").style.display = 'block';
@@ -78,6 +102,7 @@ window.onload = function () {
         emotion = 'red';
         time_seconds = video.currentTime;
         // video.pause();
+        make_active(emotion);
         make_request(video_name, emotion, time_seconds, behaviours);
         // document.getElementById("behaviours").style.display = 'block';
         // document.getElementById("wrapper").style.display = 'none';
@@ -87,6 +112,7 @@ window.onload = function () {
         emotion = 'yellow';
         time_seconds = video.currentTime;
         // video.pause();
+        make_active(emotion);
         make_request(video_name, emotion, time_seconds, behaviours);
         // document.getElementById("behaviours").style.display = 'block';
         // document.getElementById("wrapper").style.display = 'none';
