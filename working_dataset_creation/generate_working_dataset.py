@@ -37,15 +37,18 @@ def fill_emotions_from_time(output_df, annotation_df):
     annotation_sorted = annotation_df.sort_values(['video_file_name', 'time_of_video_seconds'])
     index_annotation_df = 0
     for index, row in output_df.iterrows():
-        # TODO include the tine the emotion is manifested before annotation
+        # This is to always start annotation with green zone
+        # The user annotation will start to count (time_to_skip * step_of_time) before the time it was selected.
         if index_annotation_df == 0 and row['time_of_video_seconds'] <= (
-                annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds'] - time_to_skip * step_of_time):
+                annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds'] - (time_to_skip * step_of_time)):
             emotion = 'green'
             output_df.loc[index, 'emotion_zone'] = emotion
             continue
-        if row['time_of_video_seconds'] > annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds']:
+        if row['time_of_video_seconds'] > (
+                annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds'] - (time_to_skip * step_of_time)):
             if index_annotation_df < (len(annotation_sorted) - 1):
                 index_annotation_df += 1
+
         emotion = annotation_sorted.iloc[index_annotation_df]['emotion_zone']
         output_df.loc[index, 'emotion_zone'] = emotion
     return output_df
