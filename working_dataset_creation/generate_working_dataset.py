@@ -36,21 +36,32 @@ def fill_emotions_from_time(output_df, annotation_df):
     annotation_df = pd.read_csv(annotation_df)
     annotation_sorted = annotation_df.sort_values(['video_file_name', 'time_of_video_seconds'])
     index_annotation_df = 0
-    for index, row in output_df.iterrows():
-        # This is to always start annotation with green zone
-        # The user annotation will start to count (time_to_skip * step_of_time) before the time it was selected.
-        if index_annotation_df == 0 and row['time_of_video_seconds'] <= (
-                annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds'] - (time_to_skip * step_of_time)):
-            emotion = 'green'
-            output_df.loc[index, 'emotion_zone'] = emotion
-            continue
-        if row['time_of_video_seconds'] > (
-                annotation_sorted.iloc[index_annotation_df]['time_of_video_seconds'] - (time_to_skip * step_of_time)):
-            if index_annotation_df < (len(annotation_sorted) - 1):
-                index_annotation_df += 1
+    len_output_df = len(output_df)
 
-        emotion = annotation_sorted.iloc[index_annotation_df]['emotion_zone']
-        output_df.loc[index, 'emotion_zone'] = emotion
+    count = 0
+    # for index in range(len(annotation_sorted)):
+    #     print(index)
+    for _, annotation in annotation_sorted.iterrows():
+        if count == len(annotation_sorted) - 1:
+            current_time = annotation["time_of_video_seconds"]
+            next_time = output_df.iloc[len_output_df - 1]['time_of_video_seconds'] + (time_to_skip * step_of_time)
+        else:
+            current_time = annotation["time_of_video_seconds"]
+            next_time = annotation_sorted.iloc[count + 1]['time_of_video_seconds']
+        if count == 0:
+            output_df.loc[output_df['time_of_video_seconds'] <= (
+                    current_time - (time_to_skip * step_of_time)), 'emotion_zone'] = 'green'
+            inferior_limit = current_time - time_to_skip * step_of_time
+            superior_limit = next_time - time_to_skip * step_of_time
+            output_df.loc[(output_df['time_of_video_seconds'] > inferior_limit) & (
+                    output_df['time_of_video_seconds'] <= superior_limit), 'emotion_zone'] = annotation['emotion_zone']
+            count += 1
+        else:
+            inferior_limit = current_time - time_to_skip * step_of_time
+            superior_limit = next_time - time_to_skip * step_of_time
+            output_df.loc[(output_df['time_of_video_seconds'] > inferior_limit) & (
+                    output_df['time_of_video_seconds'] <= superior_limit), 'emotion_zone'] = annotation['emotion_zone']
+            count += 1
     return output_df
 
 
