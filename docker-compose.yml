@@ -1,0 +1,21 @@
+version: '2.3'
+services:
+  nginx:
+    depends_on:
+      - annotation-tool
+    image: nginx:1.18
+    volumes:
+      - "./nginx_config/my_site:/etc/nginx/conf.d/default.conf"
+    ports:
+      - "80:80"
+    restart: unless-stopped
+  annotation-tool:
+    image: registry.insight-centre.org/annsou/annotation-tool:latest
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile'
+    volumes:
+      - "./static/videos:/app/static/videos"
+      - "./video_annotation.db:/app/video_annotation.db"
+    command: gunicorn --bind 0.0.0.0:5000 wsgi:app
+    restart: unless-stopped
