@@ -12,7 +12,7 @@
 <div id="wrapper">
     <p class="instruction">Click on the Emotional Zone button as soon as you identify it</p>
     <div id="video">
-        <video id='video_annotation' width="640" controls autoplay muted>
+        <video id='video_annotation' controls>
             <source id="source_video" src={{
             'static/' + video_name }} type="video/mp4">
         </video>
@@ -23,10 +23,26 @@
     </div>
 
     <div id="emotions">
-        <button id="emotion_blue"></button>
-        <button id="emotion_green"></button>
-        <button id="emotion_yellow"></button>
-        <button id="emotion_red"></button>
+        <div id="emotion_buttons">
+            <div class="button_wrapper" id="button_wrapper_blue">
+                <button id="emotion_blue"></button>
+<!--                <label id="label_button_blue">Current Emotion</label>-->
+                <label class="label_button" id="label_button_blue"></label>
+            </div>
+<!--            <div class="button_wrapper" id="button_wrapper_green" style="background-color: #FBA543">-->
+            <div class="button_wrapper" id="button_wrapper_green" style="background-color: #444">
+                <button id="emotion_green"></button>
+                <label class="label_button" id="label_button_green">Current Emotion</label>
+            </div>
+            <div class="button_wrapper" id="button_wrapper_yellow">
+                <button id="emotion_yellow"></button>
+                <label class="label_button"  id="label_button_yellow"></label>
+            </div>
+            <div class="button_wrapper" id="button_wrapper_red">
+                <button id="emotion_red"></button>
+                <label class="label_button"  id="label_button_red"></label>
+            </div>
+        </div>
     </div>
 
 </div>
