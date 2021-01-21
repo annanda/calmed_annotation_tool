@@ -7,8 +7,8 @@ services:
     volumes:
       - "./nginx_config/my_site:/etc/nginx/conf.d/default.conf"
       - "./authentication/.htpasswd:/etc/apache2/.htpasswd"
-      - ".certs/star_insight-centre_org.pem:/etc/nginx/certs/star_insight-centre_org.pem"
-      - ".certs/insight-centre-org.key:/etc/nginx/certs/insight-centre-org.key"
+      - "./certs/star_insight-centre_org.pem:/etc/nginx/certs/star_insight-centre_org.pem"
+      - "./certs/insight-centre-org.key:/etc/nginx/certs/insight-centre-org.key"
     ports:
       - "80:80"
       - "443:443"
