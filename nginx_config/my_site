@@ -2,8 +2,8 @@ server {
     listen       443 ssl;
     listen  [::]:443 ssl;
     server_name  localhost;
-    ssl_certificate /etc/ssl/certs/star_insight-centre_org.pem;
-    ssl_certificate_key /etc/ssl/private/insight-centre-org.key;
+    ssl_certificate /etc/nginx/certs/star_insight-centre_org.pem;
+    ssl_certificate_key /etc/nginx/certs/insight-centre-org.key;
 
     location / {
         proxy_pass   http://annotation-tool:5000;
