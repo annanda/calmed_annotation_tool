@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, json
 from models import db, EmotionIndicesAnnotation
-from conf import VIDEO_FILE
+from conf import VIDEO_FILE, VIDEO_LIST
 from datetime import datetime
 
 app = Flask(__name__, template_folder="./templates", static_folder='static')
@@ -17,9 +17,15 @@ def index_page():
     return "Hello World!"
 
 
-@app.route('/', methods=['GET'])
+@app.route('/annotation', methods=['GET'])
 def video_main():
-    return render_template('video_annotation_main.html', video_name=VIDEO_FILE)
+    video_path = request.args.get('video')
+    return render_template('video_annotation_main.html', video_path=video_path)
+
+
+@app.route('/', methods=['GET'])
+def video_list():
+    return render_template('video_annotation_index.html', video_name=VIDEO_FILE, video_list=VIDEO_LIST)
 
 
 @app.route('/store_annotation', methods=['POST'])
@@ -51,9 +57,12 @@ def test_db():
 def save_in_db(video_file_name, emotion_zone, time_seconds, behaviours):
     time = datetime.now()
     db_new_entry = EmotionIndicesAnnotation(video_file_name=video_file_name, emotion_zone=emotion_zone,
-                                            time_of_video_seconds=time_seconds, behaviour_markes=behaviours, timestamp_annotation=time)
+                                            time_of_video_seconds=time_seconds, behaviour_markes=behaviours,
+                                            timestamp_annotation=time)
     db.session.add(db_new_entry)
     db.session.commit()
+
+
 # to query the last entry on DB
 # last_execution = db.session.query(EmotionIndicesAnnotation).order_by(EmotionIndicesAnnotation.id.desc()).first()
 # print(last_execution)

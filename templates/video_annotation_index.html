@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Annotation Tool</title>
+    <link rel="stylesheet" type="text/css" href="../static/annotation_tool.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/annotation_tool.js"></script>
+
+</head>
+<body>
+<div id="wrapper">
+    <p class="instruction">Use the links below to access the videos to be annotated</p>
+    <div id="video">
+        <div id="explanation">
+
+            You can find below the recordings from your child. <br>
+            Please, click on a link to go to annotate that video part. <br>
+            You can tick the box once you finish each part, if you want.
+        </div>
+        <div id="video_list">
+            {% for video_in in video_list %}
+            {% set video_name = video_in.split('/')[-1] %}
+            <input type="checkbox" id="{{ video_name }}"> <a href="/annotation?video={{video_in}}" id="{{ video_in }}"
+                                                             class="videos_to_annotate_list"> {{ video_name}}</a> <br>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

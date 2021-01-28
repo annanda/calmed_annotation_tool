@@ -251,6 +251,15 @@ video {
     font-size: 20px;
     text-align: center;
 }
+#video_list {
+    width: 40%;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+
 
 .input_container {
     display: block;
