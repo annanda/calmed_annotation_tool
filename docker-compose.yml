@@ -23,6 +23,6 @@ services:
       - "./video_annotation.db:/app/video_annotation.db"
       - "./conf.py:/app/conf.py"
     environment:
-      - VIDEO_LIST=videos/pilots_1/pilots_1_01.mp4,videos/pilots_1/pilots_1_02.mp4,videos/pilots_1/pilots_1_03.mp4,videos/pilots_1/pilots_1_04.mp4,videos/pilots_1/pilots_1_05.mp4,videos/pilots_1/pilots_1_06.mp4
+      - VIDEO_LIST=${VIDEO_LIST}
     command: gunicorn --bind 0.0.0.0:5000 wsgi:app
     restart: unless-stopped
