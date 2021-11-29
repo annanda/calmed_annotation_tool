@@ -10,11 +10,14 @@ path_videos_directory = os.path.join(main_folder, 'static', 'videos')
 
 def get_video_duration(filename, folder_name):
     video_path = os.path.join(path_videos_directory, folder_name, filename)
-    video = cv2.VideoCapture(video_path)
-    frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
-    fps = video.get(cv2.CAP_PROP_FPS)
-    duration = frame_count / fps
-    return duration
+    if os.path.isfile(video_path):
+        video = cv2.VideoCapture(video_path)
+        frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
+        fps = video.get(cv2.CAP_PROP_FPS)
+        duration = frame_count / fps
+        return duration
+    else:
+        raise Exception('Your video folder name is not valid! It cannot read the video.')
 
 
 def generate_dataset_entries(stop, start=0, step=0.2):
@@ -109,7 +112,10 @@ def create_working_datasets(annotation_file, target_video):
 
 if __name__ == '__main__':
     # annotation_file = '/Users/user/PycharmProjects/annotation_tool/working_dataset_creation/output_from_db/data_annotation_time_test.csv'
-    annotation_file = '/Users/user/PycharmProjects/annotation_tool/working_dataset_creation/output_from_db/pilot_1.csv'
-    target_video = 'pilots_1'
-    split_annotation_by_video_files(annotation_file, target_video)
-    create_working_datasets(annotation_file, target_video)
+    annotation_file = '/Users/user/PycharmProjects/annotation_tool/working_dataset_creation/output_from_db/data_annotation_session_02_02_26112021.csv'
+    target_session_video = 'study_08112021_session_02_02'
+    # 1. First Run just the function below:
+    # split_annotation_by_video_files(annotation_file, target_session_video)
+
+    # 2. Second run just the function below:
+    # create_working_datasets(annotation_file, target_session_video)
