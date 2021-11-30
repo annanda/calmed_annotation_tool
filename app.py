@@ -5,7 +5,7 @@ from datetime import datetime
 import base64
 
 app = Flask(__name__, template_folder="./templates", static_folder='static')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///video_annotation.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///video_annotation_with_annotator.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
@@ -40,7 +40,8 @@ def store_annotation():
     emotion_zone = req_data['emotional_zone']
     time = req_data['time_seconds']
     behaviours = req_data['behaviours']
-    save_in_db(video_file_name=video_file_name, emotion_zone=emotion_zone, time_seconds=time, behaviours=behaviours)
+    save_in_db(video_file_name=video_file_name, emotion_zone=emotion_zone, time_seconds=time, behaviours=behaviours,
+               annotator=annotator)
     return 'annotation saved on DB'
 
 
@@ -68,11 +69,12 @@ def test_db():
     save_in_db(video_file_name, emotion_zone, time_seconds, behaviours)
 
 
-def save_in_db(video_file_name, emotion_zone, time_seconds, behaviours):
+def save_in_db(video_file_name, emotion_zone, time_seconds, behaviours, annotator):
     time = datetime.now()
     db_new_entry = EmotionIndicesAnnotation(video_file_name=video_file_name, emotion_zone=emotion_zone,
                                             time_of_video_seconds=time_seconds, behaviour_markes=behaviours,
-                                            timestamp_annotation=time)
+                                            timestamp_annotation=time,
+                                            annotator=annotator)
     db.session.add(db_new_entry)
     db.session.commit()
 

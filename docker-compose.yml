@@ -20,9 +20,11 @@ services:
       dockerfile: 'Dockerfile'
     volumes:
       - "./static/videos:/app/static/videos"
-      - "./video_annotation.db:/app/video_annotation.db"
+      - "./video_annotation_with_annotator.db:/app/video_annotation_with_annotator.db"
       - "./conf.py:/app/conf.py"
+      - "./app.py:/app/app.py"
     environment:
       - VIDEO_LIST=${VIDEO_LIST}
+#    command: python3 app.py
     command: gunicorn --bind 0.0.0.0:5000 wsgi:app
     restart: unless-stopped
