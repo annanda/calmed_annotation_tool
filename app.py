@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, json
 from models import db, EmotionIndicesAnnotation
 from conf import VIDEO_FILE, VIDEO_LIST
 from datetime import datetime
+import base64
 
 app = Flask(__name__, template_folder="./templates", static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///video_annotation.db'
@@ -25,12 +26,15 @@ def video_main():
 
 @app.route('/', methods=['GET'])
 def video_list():
+    # raise Exception()
     return render_template('video_annotation_index.html', video_name=VIDEO_FILE, video_list=VIDEO_LIST)
 
 
 @app.route('/store_annotation', methods=['POST'])
 def store_annotation():
     # print(request.is_json)
+    annotator = get_annotator()
+    app.logger.info(annotator)
     req_data = request.get_json()
     video_file_name = req_data['video_file_name']
     emotion_zone = req_data['emotional_zone']
@@ -38,6 +42,16 @@ def store_annotation():
     behaviours = req_data['behaviours']
     save_in_db(video_file_name=video_file_name, emotion_zone=emotion_zone, time_seconds=time, behaviours=behaviours)
     return 'annotation saved on DB'
+
+
+def get_annotator():
+    authorization_header = request.headers.get('Authorization')
+    annotator = 'admin'
+    if authorization_header:
+        auth64 = authorization_header.replace('Basic ', '')
+        annotator_byte = base64.b64decode(auth64)
+        annotator = annotator_byte.decode('utf-8').split(':')[0]
+    return annotator
 
 
 def test_db():
