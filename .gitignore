@@ -5,3 +5,4 @@
 /annotation_tool.iml
 /vcs.xml
 *.idea
+docker-compose.override.yml
