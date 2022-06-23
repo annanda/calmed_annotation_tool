@@ -104,6 +104,9 @@ def create_working_datasets(annotation_file, target_video):
         list_times = generate_dataset_entries(time_video)
         output_df = create_df_from_time_entries(time_video, list_times)
         working_dataset = fill_emotions_from_time(output_df, annotation_video_path)
+        video_part = video_name.split('.mp4')[0]
+        video_part = video_part.split('_')[-1]
+        working_dataset['video_part'] = video_part
         output_folder_path = os.path.join(main_folder, 'working_dataset', target_video)
         if not os.path.exists(output_folder_path):
             os.makedirs(output_folder_path)
@@ -111,11 +114,14 @@ def create_working_datasets(annotation_file, target_video):
 
 
 if __name__ == '__main__':
-    # annotation_file = '/Users/user/PycharmProjects/annotation_tool/working_dataset_creation/output_from_db/data_annotation_time_test.csv'
-    annotation_file = '/Users/user/PycharmProjects/annotation_tool/working_dataset_creation/output_from_db/data_annotation_session_02_02_26112021.csv'
-    target_session_video = 'study_08112021_session_02_02'
+    path_annotation_directory = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db')
+    annotation_file = path_annotation_directory + '/data_annotation_session_04_02.csv'
+    target_session_video = 'study_25042022_session_04_02'
+
     # 1. First Run just the function below:
     # split_annotation_by_video_files(annotation_file, target_session_video)
 
-    # 2. Second run just the function below:
-    # create_working_datasets(annotation_file, target_session_video)
+    # 2. Put the videos used for annotation into the folder static/videos
+
+    # 3. Second run just the function below:
+    create_working_datasets(annotation_file, target_session_video)
