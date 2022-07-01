@@ -6,6 +6,7 @@ import glob
 
 main_folder = pathlib.Path(__file__).parent.parent.absolute()
 path_videos_directory = os.path.join(main_folder, 'static', 'videos')
+path_annotation_directory = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db')
 
 
 def get_video_duration(filename, folder_name):
@@ -33,11 +34,11 @@ def generate_dataset_entries(stop, start=0, step=0.2):
     return list_generated
 
 
-def fill_emotions_from_time(output_df, annotation_df):
+def fill_emotions_from_time(output_df, annotation_df_path):
     time_to_skip = 5
     step_of_time = 0.2
-    annotation_df = pd.read_csv(annotation_df)
-    annotation_sorted = annotation_df.sort_values(['video_file_name', 'time_of_video_seconds'])
+    annotation_df_path = pd.read_csv(annotation_df_path)
+    annotation_sorted = annotation_df_path.sort_values(['video_file_name', 'time_of_video_seconds'])
     index_annotation_df = 0
     len_output_df = len(output_df)
 
@@ -75,11 +76,12 @@ def create_df_from_time_entries(video_duration, list_times):
     return new_df
 
 
-def split_annotation_by_video_files(annotation_file, target_video):
+def split_annotation_by_video_files(session_number, target_video):
+    annotation_file = path_annotation_directory + '/' + session_number + '.csv'
     annotation_df_from_db = pd.read_csv(annotation_file)
     video_files = annotation_df_from_db.video_file_name.unique()
     output_folder = pathlib.Path(__file__).parent.absolute()
-    output_folder = os.path.join(output_folder, 'output_from_db', 'by_video_file', target_video)
+    output_folder = os.path.join(output_folder, 'output_from_db', 'by_video_file', session_number)
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     for video in video_files:
@@ -88,40 +90,76 @@ def split_annotation_by_video_files(annotation_file, target_video):
             df_len = len(new_df)
             new_indexes = list(range(0, df_len))
             new_df.index = new_indexes
-            csv_name = f'{output_folder}/{video}.csv'
-            new_df.to_csv(csv_name, index=True)
+            video_name = video.split('.mp4')[0]
+            file_part = video_name.split('_')[-1]
+            file_name = f'{session_number}_{file_part}.csv'
+            csv_name = f'{output_folder}/{file_name}'
+            new_df.to_csv(csv_name, index=False)
 
 
-def create_working_datasets(annotation_file, target_video):
-    # split_annotation_by_video_files(annotation_file, target_video)
-    annotation_per_video_files = glob.glob(
-        f'{main_folder}/working_dataset_creation/output_from_db/by_video_file/{target_video}/*.csv')
+def check_annotation_video_sequence(session):
+    """
+    In here the function split_annotation_by_video has already run. So you have a separated .csv file
+    for each part of the study session videos with the annotation from each video part. They are stored in
+    output_from_db >> by_video_file
+    :param session:
+    :return:
+    """
+    folder = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'by_video_file', session)
+    output_folder = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'after_annotation_check',
+                                 session)
+    files = os.listdir(folder)
+    files.sort()
+    prev_emotion = 'green'
+    for file in files:
+        df = pd.read_csv(os.path.join(folder, file))
+        last_row = df.iloc[-1]
+        if prev_emotion != 'green':
+            video_name = last_row['video_file_name']
+            df.loc[-1] = [0, video_name, prev_emotion, 0, 0]
+            df.index = df.index + 1
+            df.sort_index(inplace=True)
+        prev_emotion = last_row['emotion_zone']
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+        df.to_csv(f'{output_folder}/{file}', index=True)
+
+
+def create_working_datasets(session_number):
+    # annotation_per_video_files = glob.glob(
+    #     f'{main_folder}/working_dataset_creation/output_from_db/after_annotation_check/{session_number}/*.csv')
+    path_dir = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'after_annotation_check',
+                            session_number)
+    annotation_per_video_files = os.listdir(path_dir)
     for annotation_video_path in annotation_per_video_files:
-        video_name = annotation_video_path.split('/')[-1]
-        video_name = video_name.split('.csv')[0]
-        folder_name = target_video
+        video_name = annotation_video_path.split('.csv')[0] + '.mp4'
+        folder_name = session_number
         time_video = get_video_duration(video_name, folder_name)
         list_times = generate_dataset_entries(time_video)
         output_df = create_df_from_time_entries(time_video, list_times)
-        working_dataset = fill_emotions_from_time(output_df, annotation_video_path)
+        working_dataset = fill_emotions_from_time(output_df, os.path.join(path_dir, annotation_video_path))
         video_part = video_name.split('.mp4')[0]
         video_part = video_part.split('_')[-1]
         working_dataset['video_part'] = video_part
-        output_folder_path = os.path.join(main_folder, 'working_dataset', target_video)
+        output_folder_path = os.path.join(main_folder, 'working_dataset', session_number)
         if not os.path.exists(output_folder_path):
             os.makedirs(output_folder_path)
-        working_dataset.to_csv(f'{output_folder_path}/{video_name}.csv')
+        file_name = video_name.replace('.mp4', '')
+        working_dataset.to_csv(f'{output_folder_path}/{file_name}.csv', index=True)
 
 
 if __name__ == '__main__':
-    path_annotation_directory = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db')
-    annotation_file = path_annotation_directory + '/data_annotation_session_04_02.csv'
-    target_session_video = 'study_25042022_session_04_02'
+    session = 'session_01_01'
+    target_session_video = 'study_20210526_01'
 
     # 1. First Run just the function below:
-    # split_annotation_by_video_files(annotation_file, target_session_video)
+    # split_annotation_by_video_files(session, target_session_video)
 
+    # TODO save the video sizes for I dont need to open the videos every time.
     # 2. Put the videos used for annotation into the folder static/videos
 
-    # 3. Second run just the function below:
-    create_working_datasets(annotation_file, target_session_video)
+    # 3. Correct annotation, if needed
+    # check_annotation_video_sequence(session)
+
+    # 4. Second run just the function below:
+    create_working_datasets(session)
