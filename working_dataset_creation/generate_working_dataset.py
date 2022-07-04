@@ -21,6 +21,11 @@ def get_video_duration(filename, folder_name):
         raise Exception('Your video folder name is not valid! It cannot read the video.')
 
 
+def find_missing(lst):
+    return [x for x in range(lst[0], lst[-1] + 1)
+            if x not in lst]
+
+
 def generate_dataset_entries(stop, start=0, step=0.2):
     list_generated = []
     count = 0
@@ -84,6 +89,7 @@ def split_annotation_by_video_files(session_number, target_video):
     output_folder = os.path.join(output_folder, 'output_from_db', 'by_video_file', session_number)
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
+    file_parts = []
     for video in video_files:
         if target_video in video:
             new_df = annotation_df_from_db[annotation_df_from_db['video_file_name'] == video]
@@ -92,9 +98,25 @@ def split_annotation_by_video_files(session_number, target_video):
             new_df.index = new_indexes
             video_name = video.split('.mp4')[0]
             file_part = video_name.split('_')[-1]
+            file_parts.append(int(file_part))
             file_name = f'{session_number}_{file_part}.csv'
             csv_name = f'{output_folder}/{file_name}'
             new_df.to_csv(csv_name, index=False)
+    file_parts.sort()
+    missing_parts = find_missing(file_parts)
+    # ! It only works if the missing annotation part is in the middle of the videos.
+    if missing_parts:
+        for part in missing_parts:
+            data = {'id': [0],
+                    'video_file_name': [session_number],
+                    'annotator': ['admin'],
+                    'emotion_zone': ['green'],
+                    'time_of_video_seconds': [0.0],
+                    'timestamp_annotation': [0]}
+            missing_df = pd.DataFrame.from_dict(data)
+            file_name = f'{session_number}_0{part}.csv'
+            csv_name = f'{output_folder}/{file_name}'
+            missing_df.to_csv(csv_name, index=False)
 
 
 def check_annotation_video_sequence(session):
@@ -106,7 +128,8 @@ def check_annotation_video_sequence(session):
     :return:
     """
     folder = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'by_video_file', session)
-    output_folder = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'after_annotation_check',
+    output_folder = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db',
+                                 'after_annotation_check',
                                  session)
     files = os.listdir(folder)
     files.sort()
@@ -116,9 +139,17 @@ def check_annotation_video_sequence(session):
         last_row = df.iloc[-1]
         if prev_emotion != 'green':
             video_name = last_row['video_file_name']
-            df.loc[-1] = [0, video_name, prev_emotion, 0, 0]
-            df.index = df.index + 1
-            df.sort_index(inplace=True)
+            size = len(df.columns)
+            if size == 5:
+                df.loc[-1] = [0, video_name, prev_emotion, 0, 0]
+                df.index = df.index + 1
+                df.sort_index(inplace=True)
+            elif size == 6:
+                df.loc[-1] = [0, video_name, 'admin', prev_emotion, 0, 0]
+                df.index = df.index + 1
+                df.sort_index(inplace=True)
+            else:
+                raise ValueError('Something is wrong with the dataframe format')
         prev_emotion = last_row['emotion_zone']
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
@@ -126,8 +157,6 @@ def check_annotation_video_sequence(session):
 
 
 def create_working_datasets(session_number):
-    # annotation_per_video_files = glob.glob(
-    #     f'{main_folder}/working_dataset_creation/output_from_db/after_annotation_check/{session_number}/*.csv')
     path_dir = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'after_annotation_check',
                             session_number)
     annotation_per_video_files = os.listdir(path_dir)
@@ -149,14 +178,14 @@ def create_working_datasets(session_number):
 
 
 if __name__ == '__main__':
-    session = 'session_01_01'
-    target_session_video = 'study_20210526_01'
+    session = 'session_03_01'
+    target_session_video = 'study_06042022_session_03_01'
 
     # 1. First Run just the function below:
     # split_annotation_by_video_files(session, target_session_video)
 
     # TODO save the video sizes for I dont need to open the videos every time.
-    # 2. Put the videos used for annotation into the folder static/videos
+    # 2. Put the videos used for annotation into the folder static/videos (with the right pattern for name)
 
     # 3. Correct annotation, if needed
     # check_annotation_video_sequence(session)
