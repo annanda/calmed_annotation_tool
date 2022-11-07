@@ -14,7 +14,7 @@ services:
       - "443:443"
     restart: unless-stopped
   annotation-tool:
-    image: registry.insight-centre.org/annsou/annotation-tool:latest
+    image: registry.insight-centre.org/annsou/annotation-tool:updated
     build:
       context: '.'
       dockerfile: 'Dockerfile'
@@ -25,6 +25,6 @@ services:
       - "./app.py:/app/app.py"
     environment:
       - VIDEO_LIST=${VIDEO_LIST}
-#    command: python3 app.py
+    #    command: python3 app.py
     command: gunicorn --bind 0.0.0.0:5000 wsgi:app
     restart: unless-stopped
