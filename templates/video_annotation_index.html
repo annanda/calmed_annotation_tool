@@ -5,7 +5,7 @@
     <title>Annotation Tool</title>
     <link rel="stylesheet" type="text/css" href="../static/annotation_tool.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../static/annotation_tool.js"></script>
+    <script type="text/javascript" src="../static/annotation_index.js"></script>
 
 </head>
 <body>
@@ -21,7 +21,7 @@
         <div id="video_list">
             {% for video_in in video_list %}
             {% set video_name = video_in.split('/')[-1] %}
-            <input type="checkbox" id="{{ video_name }}"> <a href="/annotation?video={{video_in}}" id="{{ video_in }}"
+            <input type="checkbox" id="{{ video_name }}" class="checkboxes"> <a href="/annotation?video={{video_in}}" id="{{ video_name }}"
                                                              class="videos_to_annotate_list"> {{ video_name}}</a> <br>
             {% endfor %}
 

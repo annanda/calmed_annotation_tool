@@ -6,3 +6,6 @@
 /vcs.xml
 *.idea
 docker-compose.override.yml
+/working_dataset/
+/working_dataset_creation/
+/db_from_server/
