@@ -12,3 +12,6 @@ docker-compose.override.yml
 /certs/
 /authentication/
 /static/videos/
+/.env
+/.htpasswd
+/video_annotation_with_annotator.db
