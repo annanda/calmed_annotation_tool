@@ -81,12 +81,14 @@ def create_df_from_time_entries(video_duration, list_times):
     return new_df
 
 
-def split_annotation_by_video_files(session_number, target_video):
-    annotation_file = path_annotation_directory + '/' + session_number + '.csv'
+def split_annotation_by_video_files(original_annotation, session_number, target_video, annotation_type):
+    # annotation_file = path_annotation_directory + '/' + session_number + '.csv'
+    annotation_file = original_annotation
+
     annotation_df_from_db = pd.read_csv(annotation_file)
     video_files = annotation_df_from_db.video_file_name.unique()
     output_folder = pathlib.Path(__file__).parent.absolute()
-    output_folder = os.path.join(output_folder, 'output_from_db', 'by_video_file', session_number)
+    output_folder = os.path.join(output_folder, 'output_from_db', 'by_video_file', annotation_type, session_number)
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     file_parts = []
@@ -119,7 +121,7 @@ def split_annotation_by_video_files(session_number, target_video):
             missing_df.to_csv(csv_name, index=False)
 
 
-def check_annotation_video_sequence(session):
+def check_annotation_video_sequence(session, annotation_type):
     """
     In here the function split_annotation_by_video has already run. So you have a separated .csv file
     for each part of the study session videos with the annotation from each video part. They are stored in
@@ -127,9 +129,10 @@ def check_annotation_video_sequence(session):
     :param session:
     :return:
     """
-    folder = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'by_video_file', session)
+    folder = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'by_video_file', annotation_type,
+                          session)
     output_folder = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db',
-                                 'after_annotation_check',
+                                 'after_annotation_check', annotation_type,
                                  session)
     files = os.listdir(folder)
     files.sort()
@@ -156,8 +159,9 @@ def check_annotation_video_sequence(session):
         df.to_csv(f'{output_folder}/{file}', index=True)
 
 
-def create_working_datasets(session_number):
+def create_working_datasets(session_number, annotation_type):
     path_dir = os.path.join(main_folder, 'working_dataset_creation', 'output_from_db', 'after_annotation_check',
+                            annotation_type,
                             session_number)
     annotation_per_video_files = os.listdir(path_dir)
     for annotation_video_path in annotation_per_video_files:
@@ -170,7 +174,7 @@ def create_working_datasets(session_number):
         video_part = video_name.split('.mp4')[0]
         video_part = video_part.split('_')[-1]
         working_dataset['video_part'] = video_part
-        output_folder_path = os.path.join(main_folder, 'working_dataset', session_number)
+        output_folder_path = os.path.join(main_folder, 'working_dataset', annotation_type, session_number)
         if not os.path.exists(output_folder_path):
             os.makedirs(output_folder_path)
         file_name = video_name.replace('.mp4', '')
@@ -178,17 +182,31 @@ def create_working_datasets(session_number):
 
 
 if __name__ == '__main__':
-    session = 'session_03_01'
-    target_session_video = 'study_06042022_session_03_01'
+    # session = 'session_01_01'
+    # target_session_video = 'session_01_01'
 
-    # 1. First Run just the function below:
-    # split_annotation_by_video_files(session, target_session_video)
+    #  TODO save the video sizes for I dont need to open the videos every time.
+    # 1. Put the videos used for annotation into the folder static/videos (with the right pattern for name)
 
-    # TODO save the video sizes for I dont need to open the videos every time.
-    # 2. Put the videos used for annotation into the folder static/videos (with the right pattern for name)
+    # Define the origin file - to extract annotations
+    file_annotation = path_annotation_directory + '/' + 'annotation_specialist_complete.csv'
+    annotation_type = 'specialist'
+    sessions = [
+        # 'session_01_01',
+        # 'session_02_01',
+        # 'session_02_02',
+        # 'session_03_01',
+        'session_03_02',
+        # 'session_04_01',
+        # 'session_04_02',
+    ]
 
-    # 3. Correct annotation, if needed
-    # check_annotation_video_sequence(session)
+    for session in sessions:
+        # 2. First Run just the function below:
+        split_annotation_by_video_files(file_annotation, session, session, annotation_type)
 
-    # 4. Second run just the function below:
-    create_working_datasets(session)
+        # 3. Correct annotation, if needed
+        check_annotation_video_sequence(session, annotation_type)
+
+        # 4. Second run just the function below:
+        create_working_datasets(session, annotation_type)
