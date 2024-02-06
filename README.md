@@ -2,7 +2,11 @@
 
 ## User Manual
 
-### Development
+## Pre-requisites
+- Python 3.8 
+- Docker
+
+### Development (Local Run)
 
 1. Prepare the virtual environment (Create and activate virtual environment with venv).
 
@@ -28,6 +32,8 @@ A user can configure each task's content and time by adding/changing the variabl
 a `.env` file.
 
 The `example.env` file contains examples of variable and values format.
+
+## Generating the working dataset from the collected annotation marks
 
 ### How to extract a .CSV file from .db file
 
@@ -62,3 +68,23 @@ Save the `.csv` in the folder `working_dataset_creation/output_from_db`.
 2. Run the file:
 
 ```python working_dataset_creation/generate_working_dataset.py```
+
+## Licence
+
+This repository is released under dual-licencing:
+
+For non-commercial use of the Software, it is released under
+the [3-Cause BSD Licence](https://opensource.org/license/bsd-3-clause/).
+
+For commercial use of the Software, you are required to contact the University of Galway to arrange a commercial
+licence.
+
+Please refer to [LICENSE.md](LICENSE.md) file for details on the licence.
+
+----
+
+Author: Annanda Sousa
+
+Author's contact: [annanda.sousa@gmail.com](mailto:annanda.sousa@gmail.com)
+
+----
