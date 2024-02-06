@@ -1,9 +1,20 @@
 # Annotation Tool software for the project Ethically-driven Multimodal Emotion Detection for Children with Autism
 
+This web-based system supports the annotation task to create annotated dataset. The annotator accesses a URL address
+containing an authentication-protected system with
+the study session recordings that need to be annotated. The system records the video time along with the assigned
+emotion class identified by the annotator and the annotator's identification. This information is then saved in a
+database and can be retrieved later when creating the working dataset with the annotations.
+
+This repository includes the web-based annotation task system and a Python script to create working annotated datasets
+from
+the annotations collected during annotation session.
+
 ## User Manual
 
 ## Pre-requisites
-- Python 3.8 
+
+- Python 3.8
 - Docker
 
 ### Development (Local Run)
