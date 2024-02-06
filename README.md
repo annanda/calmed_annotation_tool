@@ -16,7 +16,7 @@ And then:
 .output data_annotation_session_XX_XX.csv
 select id,video_file_name, annotator, emotion_zone,time_of_video_seconds,timestamp_annotation from emotion_indices_annotation;
 ```
-Save the ```.csv``` in the folder ```working_dataset_creation/output_rom_db```.
+Save the ```.csv``` in the folder ```working_dataset_creation/output_from_db```.
 
 
 ## How to create a working dataset from the annotated .csv
